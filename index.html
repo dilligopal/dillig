@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DILLI G | Civil Engineer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* --- THEME CONFIG --- */
+        :root {
+            --primary-blue: #0d47a1;
+            --accent-blue: #1976d2;
+            --bg-light: #f5f7fa;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --text-grey: #546e7a;
+            --border-radius: 8px;
+            --card-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        a { text-decoration: none; color: var(--primary-blue); }
+        
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
+
+        /* Navigation */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary-blue); letter-spacing: 1px; }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a { font-weight: 500; color: var(--text-grey); transition: 0.3s; font-size: 0.95rem; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-blue); }
+
+        /* Mobile Menu Toggle (Hamburger) */
+        .menu-toggle {
+            display: none; /* Hidden on desktop */
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        #hero {
+            position: relative;
+            background: var(--white);
+            height: 100vh; 
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.4; }
+        .hero-content { position: relative; z-index: 1; padding: 0 1rem; }
+
+        #hero h1, #hero p, #hero .btn, #hero .btn-group {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards;
+        }
+        #hero p { animation-delay: 0.2s; }
+        #hero .btn-group { animation-delay: 0.4s; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        .hero-content h1 { font-size: 3.5rem; color: var(--text-dark); margin-bottom: 1rem; line-height: 1.2; }
+        .hero-content h1 span { color: var(--primary-blue); }
+        .hero-content p { font-size: 1.2rem; color: var(--text-grey); max-width: 600px; margin: 0 auto 2rem; }
+        
+        /* Buttons */
+        .btn { display: inline-block; background: var(--primary-blue); color: var(--white); padding: 0.8rem 2rem; border-radius: var(--border-radius); font-weight: 600; margin: 0.5rem; transition: all 0.3s ease; border: none; cursor: pointer; font-size: 0.95rem; }
+        .btn:hover { background: var(--accent-blue); color: var(--white); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(13, 71, 161, 0.3); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary-blue); color: var(--primary-blue); }
+        .btn-outline:hover { background: var(--primary-blue); color: var(--white); }
+        
+        .btn-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .text-link { display: block; margin-top: 1rem; font-size: 0.9rem; color: var(--text-grey); opacity:0; animation: fadeInUp 1s forwards; animation-delay: 0.6s; }
+
+        /* Sections */
+        .section { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
+        .section-title { font-size: 2rem; color: var(--text-dark); margin-bottom: 2rem; position: relative; display: inline-block; }
+        .section-title::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 50px; height: 4px; background: var(--primary-blue); border-radius: 2px; transition: width 0.5s ease; }
+        .section-title:hover::after { width: 100%; }
+
+        /* Cards & Content */
+        #about { background: var(--white); border-radius: var(--border-radius); padding: 3rem; box-shadow: var(--card-shadow); margin-top: -4rem; position: relative; z-index: 1; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .about-text p { margin-bottom: 1rem; color: var(--text-grey); }
+        .skills-container { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+        .skill-card { background: var(--bg-light); padding: 1rem 1.5rem; border-radius: var(--border-radius); font-weight: 600; display: flex; align-items: center; gap: 10px; color: var(--text-dark); border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease; }
+        .skill-card:hover { transform: translateY(-5px); border-color: var(--primary-blue); }
+        .skill-card i { color: var(--primary-blue); }
+
+        .contact-container { max-width: 600px; margin: 0 auto; background: var(--white); padding: 2.5rem; border-radius: var(--border-radius); box-shadow: var(--card-shadow); }
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text-dark); }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.8rem 1rem; border: 1px solid #ddd; border-radius: var(--border-radius); background: var(--bg-light); color: var(--text-dark); font-family: inherit; transition: 0.3s; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-blue); }
+
+        footer { background: #1a1a1a; color: #e0e0e0; padding: 3rem 2rem; text-align: center; margin-top: 4rem; }
+        .social-links a { color: #e0e0e0; font-size: 1.5rem; margin: 0 1rem; transition: 0.3s; }
+        .social-links a:hover { color: var(--accent-blue); }
+
+        /* --- MOBILE RESPONSIVE STYLES --- */
+        @media (max-width: 768px) {
+            /* Show Hamburger */
+            .menu-toggle { display: flex; }
+
+            /* Mobile Nav Logic */
+            .nav-links {
+                position: fixed; /* Fixed position to overlay content */
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--white);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transform: translateX(-100%); /* Hidden by default */
+                transition: transform 0.3s ease;
+            }
+            .nav-links.nav-active {
+                transform: translateX(0); /* Show when active */
+            }
+            .nav-links li { margin: 1.5rem 0; }
+            .nav-links a { font-size: 1.2rem; }
+
+            /* Hamburger Animation */
+            .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+
+            /* General Mobile Styles */
+            .hero-content h1 { font-size: 2.2rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .section { padding: 3rem 1.5rem; }
+            #about { margin-top: -2rem; padding: 2rem; }
+            .btn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">DG</a>
+            
+            <!-- Mobile Hamburger Menu -->
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="certifications.html">Certifications</a></li>
+                <li><a href="achievements.html">Achievements</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-content">
+            <h1>Hi, I'm <span>DILLI G</span></h1>
+            <p>Civil Engineering Student | CAD & Revit Specialist<br>Passionate about Sustainable Design & Infrastructure.</p>
+            
+            <div class="btn-group">
+                <a href="projects.html" class="btn">View My Work</a>
+                <a href="files/resume.pdf" download="Dilli_G_Resume.pdf" class="btn btn-outline">
+                    <i class="fas fa-download"></i> Download Resume
+                </a>
+            </div>
+            <a href="files/resume.pdf" target="_blank" class="text-link">
+                <i class="fas fa-eye"></i> Or view resume in browser
+            </a>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <div class="section">
+        <section id="about" class="reveal">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>I'm a passionate and dedicated Civil Engineering student at <strong>R.M.K. Engineering College</strong>. With a strong interest in design, planning, and construction, I’ve been actively developing my technical skills and creativity through practical experience.</p>
+                    <p>I’ve designed a wide range of models and layouts, from 2D technical drawings to detailed 3D architectural visualizations. These projects have allowed me to deepen my understanding of spatial planning, structural detailing, and real-world construction workflows.</p>
+                </div>
+                <div class="about-extra">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-blue);">Education</h3>
+                    <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary-blue);">
+                        <h4>B.E. Civil Engineering</h4>
+                        <p style="color: var(--text-grey); margin-bottom: 0;">R.M.K. Engineering College</p>
+                        <p style="font-size: 0.9rem; color: var(--text-grey);">2023 - Present</p>
+                    </div>
+                    <div class="about-extra">
+                        <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--primary-blue);">
+                        <h4>KG - 12th</h4>
+                        <p style="color: var(--text-grey); margin-bottom: 0;">Sri Sankara Matric Higher Secondary School</p>
+                        <p style="font-size: 0.9rem; color: var(--text-grey);">2009 - 2023</p>
+                    </div>
+                </div>
+                 
+            </div>
+        </section>
+    </div>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="section">
+        <h2 class="section-title reveal">Technical Skills</h2>
+        <div class="skills-container">
+            <div class="skill-card reveal delay-1"><i class="fas fa-drafting-compass"></i> AutoCAD</div>
+            <div class="skill-card reveal delay-2"><i class="fas fa-cube"></i> SketchUp</div>
+            <div class="skill-card reveal delay-3"><i class="fas fa-building"></i> Revit (BIM)</div>
+            <div class="skill-card reveal delay-1"><i class="fas fa-hard-hat"></i> Construction Planning</div>
+            <div class="skill-card reveal delay-2"><i class="fas fa-ruler-combined"></i> Structural Detailing</div>
+            <div class="skill-card reveal delay-3"><i class="fas fa-leaf"></i> Sustainable Design</div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="section">
+        <h2 class="section-title reveal" style="display: block; text-align: center;">Get In Touch</h2>
+        <p style="text-align: center; margin-bottom: 2rem; color: var(--text-grey);" class="reveal">Have a project in mind? Let's work together.</p>
+        <div class="contact-container reveal">
+            <form action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="4b94b065-00dd-4488-9063-ff65e9ee8041">
+                <input type="checkbox" name="botcheck" class="hidden" style="display:none">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" name="name" id="name" placeholder="DILLI G" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" name="email" id="email" placeholder="you@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea name="message" id="message" placeholder="Your message here..." required></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/dillig/"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/dilligopal"><i class="fab fa-github"></i></a>
+        </div>
+        <p style="margin-top: 1rem; opacity: 0.7;">&copy; 2026 DILLI G. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // 1. Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('active'); observer.unobserve(entry.target); }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(reveal => { revealOnScroll.observe(reveal); });
+
+        // 2. Hero Canvas Animation
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
+        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = document.getElementById('hero').offsetHeight; }
+        class Particle {
+            constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.5; this.vy = (Math.random() - 0.5) * 0.5; this.radius = Math.random() * 2 + 1; }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = '#1976d2'; ctx.fill(); }
+            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; }
+        }
+        function initParticles() { particles = []; const numberOfParticles = Math.floor((width * height) / 15000); for (let i = 0; i < numberOfParticles; i++) { particles.push(new Particle()); } }
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x; const dy = particles[i].y - particles[j].y; const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 150) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.strokeStyle = `rgba(13, 71, 161, ${1 - distance / 150})`; ctx.lineWidth = 0.5; ctx.stroke(); }
+                }
+            }
+            particles.forEach(p => { p.draw(); p.update(); });
+            requestAnimationFrame(animateParticles);
+        }
+        window.addEventListener('resize', () => { resize(); initParticles(); });
+        resize(); initParticles(); animateParticles();
+
+        // 3. Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            navLinks.classList.toggle('nav-active');
+        });
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                navLinks.classList.remove('nav-active');
+            });
+        });
+    </script>
+</body>
+</html>

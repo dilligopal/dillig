@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certifications | DILLI G</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* --- THEME & BASE STYLES --- */
+        :root {
+            --primary-blue: #0d47a1; --accent-blue: #1976d2; --bg-light: #f5f7fa;
+            --white: #ffffff; --text-dark: #333333; --text-grey: #546e7a; --border-radius: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+        a { text-decoration: none; color: var(--primary-blue); }
+
+        /* Navigation */
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: fixed; width: 100%; top: 0; z-index: 1000; }
+        nav { max-width: 1100px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary-blue); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { font-weight: 500; color: var(--text-grey); transition: 0.3s; font-size: 0.95rem; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-blue); }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+        .menu-toggle span { width: 25px; height: 3px; background: var(--text-dark); transition: 0.3s; }
+
+        /* Page Header */
+        .page-header { background: var(--white); padding: 8rem 2rem 4rem; text-align: center; border-bottom: 1px solid #eee; }
+        .page-header h1 { font-size: 2.5rem; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .page-header p { color: var(--text-grey); }
+
+        /* Certificate Grid */
+        .section { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
+        .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .cert-card { background: var(--white); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease; border: 1px solid #eee; display: flex; flex-direction: column; }
+        .cert-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: var(--primary-blue); }
+
+        /* Certificate Image Styling */
+        .cert-img-area { height: 220px; background: #e8eaf6; border-bottom: 1px solid #eee; overflow: hidden; position: relative; }
+        .cert-img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.5s ease; }
+        .cert-card:hover .cert-img { transform: scale(1.05); }
+
+        .cert-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+        .cert-title { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .cert-issuer { font-size: 0.9rem; color: var(--accent-blue); font-weight: 600; margin-bottom: 0.25rem; }
+        .cert-date { font-size: 0.85rem; color: var(--text-grey); margin-bottom: 1rem; }
+        .cert-link { margin-top: auto; display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 0.9rem; color: var(--primary-blue); }
+
+        /* Footer */
+        footer { background: var(--text-dark); color: var(--white); padding: 2rem; text-align: center; margin-top: 4rem; }
+        .social-links a { color: var(--white); font-size: 1.2rem; margin: 0 1rem; }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .nav-links {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--white);
+                flex-direction: column; justify-content: center; align-items: center;
+                transform: translateX(-100%); transition: transform 0.3s ease;
+            }
+            .nav-links.nav-active { transform: translateX(0); }
+            .nav-links li { margin: 1.5rem 0; }
+            .nav-links a { font-size: 1.2rem; }
+
+            .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+
+            .page-header { padding: 6rem 1.5rem 3rem; }
+            .page-header h1 { font-size: 2rem; }
+            .section { padding: 3rem 1.5rem; }
+            .cert-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">DG</a>
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="certifications.html" class="active">Certifications</a></li>
+                <li><a href="achievements.html">Achievements</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>Certifications</h1>
+        <p>My professional credentials and course completions.</p>
+    </div>
+
+    <!-- CERTIFICATIONS SECTION -->
+    <section class="section">
+        <div class="cert-grid">
+
+            <!-- Certificate 1 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Renewable Energy Engineering Solar, Wind and Biomass Energy System.png" alt="AutoCAD Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Renewable Energy Engineering: Solar, Wind and Biomass Energy System</h3>
+                    <p class="cert-issuer">NPTEL</p>
+                    <p class="cert-date">Issued: April 2026 | ID: NOC26CH26S35100004504229872</p>
+                    <a href="https://nptel.ac.in/noc/E_Certificate/NOC26CH26S35100004504229872" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 2 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Electronic Waste Management - Issues And Challenges.png" alt="Revit Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Electronic Waste Management - Issues And Challenges</h3>
+                    <p class="cert-issuer">NPTEL</p>
+                    <p class="cert-date">Issued: Apr 2026 | ID: NOC26CE49S67060009103113276</p>
+                    <a href="https://nptel.ac.in/noc/E_Certificate/NOC26CE49S67060009103113276" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 3 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/foundations_of revit.png" alt="Safety Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Foundations of Revit</h3>
+                    <p class="cert-issuer">Autodesk</p>
+                    <p class="cert-date">Issued: Mar 2026</p>
+                    <a href="https://drive.google.com/file/d/14GGz7bDl0oasFolvCb20V5jUzKyERcnq/view" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 4 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/introduction_to bim for the aeco industry.jpg" alt="SketchUp Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Introduction to BIM for the AECO industry</h3>
+                    <p class="cert-issuer">Autodesk</p>
+                    <p class="cert-date">Issued: Nov 2025</p>
+                    <a href="https://drive.google.com/file/d/1HRqkw9Ze_EuQtdv6Fc9fRUlH0rmpO68J/view" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 5 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Exploring Bentley STAAD Pro CONNECT Edition.jpg" alt="Project Management Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Exploring Bentley STAAD Pro CONNECT Edition</h3>
+                    <p class="cert-issuer">Udemy</p>
+                    <p class="cert-date">Issued: Nov 2025 | ID: UC-8939c678-5547-4295-bb45-c19fcbce69d7</p>
+                    <a href="https://www.udemy.com/certificate/UC-8939c678-5547-4295-bb45-c19fcbce69d7/" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 6 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Ground Improvement.jpg" alt="Ground Improvement Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Ground Improvement</h3>
+                    <p class="cert-issuer">NPTEL</p>
+                    <p class="cert-date">Issued: Nov 2025 | ID: NPTEL25CE115S117100052310237348</p>
+                    <a href="https://nptel.ac.in/noc/E_Certificate/NPTEL25CE115S117100052310237348" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 7 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Design and Analysis of RCC Structures.jpg" alt="Design and Analysis of RCC Structures Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Design and Analysis of RCC Structures</h3>
+                    <p class="cert-issuer">Bentley Education</p>
+                    <p class="cert-date">Issued: Oct 2025 </p>
+                    <a href="https://drive.google.com/file/d/17cezk0N7P2ptvsAAUmhvyCEW_QF2jxyq/view" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 8 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/BIM Fundamentals for Engineers.jpeg" alt="BIM Fundamentals for Engineers Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">BIM Fundamentals for Engineers</h3>
+                    <p class="cert-issuer">Coursera</p>
+                    <p class="cert-date">Issued: May 2025 </p>
+                    <a href="http://coursera.org/verify/QHJ2TOKKMMFR" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 9 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/GPS Surveying.png" alt="GPS Surveying Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">GPS Surveying</h3>
+                    <p class="cert-issuer">NPTEL</p>
+                    <p class="cert-date">Issued: Mar 2025 | ID: NPTEL25CE31S64660088901209326</p>
+                    <a href="https://nptel.ac.in/noc/E_Certificate/NPTEL25CE31S64660088901209326" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 10 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Advanced Kitchen Modeling- Cabinet Design- SketchUp & Lumion.jpg" alt="Project Management Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Advanced Kitchen Modeling- Cabinet Design- SketchUp & Lumion</h3>
+                    <p class="cert-issuer">Udemy</p>
+                    <p class="cert-date">Issued: Mar 2025 | ID: UC-0dddfa14-751b-4378-a4c8-a9b4f5447575</p>
+                    <a href="https://www.udemy.com/certificate/UC-0dddfa14-751b-4378-a4c8-a9b4f5447575/" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 11 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Exploring Autodesk Revit for Structure BIM Tutorials.jpg" alt="Project Management Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Exploring Autodesk Revit for Structure BIM Tutorials</h3>
+                    <p class="cert-issuer">Udemy</p>
+                    <p class="cert-date">Issued: Mar 2025 | ID: UC-d2e278b8-fe10-4b2f-bcf2-57c8a87f8327</p>
+                    <a href="https://www.udemy.com/certificate/UC-d2e278b8-fe10-4b2f-bcf2-57c8a87f8327/" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 12 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/SketchUp how to start modelling simple 3D objects.jpeg" alt="BIM Fundamentals for Engineers Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">SketchUp: how to start modelling simple 3D objects</h3>
+                    <p class="cert-issuer">Coursera</p>
+                    <p class="cert-date">Issued: Mar 2025 </p>
+                    <a href="http://coursera.org/verify/TPMGGH232CBC" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 13 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/ArcGIS for Beginners - Mapping Urban Green Spaces.jpeg" alt="ArcGIS for Beginners: Mapping Urban Green Spaces Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">ArcGIS for Beginners: Mapping Urban Green Spaces</h3>
+                    <p class="cert-issuer">Coursera</p>
+                    <p class="cert-date">Issued: Mar 2025 </p>
+                    <a href="http://coursera.org/verify/PLRAWGUUCTMQ" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 14 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Revit- Mass Modeling.jpg" alt="Revit- Mass Modeling Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Revit- Mass Modeling</h3>
+                    <p class="cert-issuer">Udemy</p>
+                    <p class="cert-date">Issued: Jan 2025 | ID: UC-03af10ee-4cae-40a6-b954-386d117b04f4</p>
+                    <a href="https://www.udemy.com/certificate/UC-03af10ee-4cae-40a6-b954-386d117b04f4/" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 15 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Exploring AutoCAD Civil 3D.jpg" alt="Exploring AutoCAD Civil 3D Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Exploring AutoCAD Civil 3D</h3>
+                    <p class="cert-issuer">Udemy</p>
+                    <p class="cert-date">Issued: Jan 2025 | ID: UC-98e03d15-8b68-486f-95f0-660f56830670</p>
+                    <a href="https://www.udemy.com/certificate/UC-98e03d15-8b68-486f-95f0-660f56830670/" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 16 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Sketchup - Advanced.jpg" alt="Sketchup - Advanced Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Sketchup - Advanced</h3>
+                    <p class="cert-issuer">Infosys Springboard</p>
+                    <p class="cert-date">Issued: Dec 2024 </p>
+                    <a href="https://drive.google.com/file/d/1Z8JrJCIqPsqmwKg4fNC7gapR5z0vo9cB/view" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 17 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/BIM- Revit Family Creation- From Zero to Advanced.jpg" alt="BIM- Revit Family Creation- From Zero to Advanced Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">BIM- Revit Family Creation- From Zero to Advanced</h3>
+                    <p class="cert-issuer">Udemy</p>
+                    <p class="cert-date">Issued: Oct 2024 | ID: UC-c1615663-6caf-49de-aa83-76d718a04bfc</p>
+                    <a href="https://www.udemy.com/certificate/UC-c1615663-6caf-49de-aa83-76d718a04bfc/" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 18 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/AutoCAD 2023 MasterClass.jpg" alt="AutoCAD 2023 MasterClass Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">AutoCAD 2023 MasterClass</h3>
+                    <p class="cert-issuer">Udemy</p>
+                    <p class="cert-date">Issued: Apr 2024 | ID: UC-a1bea361-2982-4a5e-b5d1-b633626b50f9</p>
+                    <a href="https://www.udemy.com/certificate/UC-a1bea361-2982-4a5e-b5d1-b633626b50f9/" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+            <!-- Certificate 19 -->
+            <div class="cert-card">
+                <div class="cert-img-area">
+                    <!-- Replace src with your actual image file path -->
+                    <img src="files/certificates/Excel certificate.jpg" alt="Excel Tools in Mac Excel Certificate" class="cert-img">
+                </div>
+                <div class="cert-content">
+                    <h3 class="cert-title">Excel Tools in Mac Excel</h3>
+                    <p class="cert-issuer">Infosys Springboard</p>
+                    <p class="cert-date">Issued: Oct 2023 </p>
+                    <a href="https://drive.google.com/file/d/1-X_8spZbD1_jVS8aeQhPKiAex7hsKoin/view" class="cert-link"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/dillig/"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/dilligopal"><i class="fab fa-github"></i></a>
+        </div>
+        <p style="margin-top: 1rem; opacity: 0.7; font-size: 0.8rem;">&copy; 2026 DILLI G.</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            navLinks.classList.toggle('nav-active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                navLinks.classList.remove('nav-active');
+            });
+        });
+    </script>
+</body>
+</html>
