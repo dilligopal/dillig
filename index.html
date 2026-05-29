@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DILLI G | Civil Engineer</title>
+    <title>Dilli G | Civil Engineer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* --- THEME CONFIG --- */
@@ -64,9 +64,9 @@
         .nav-links a { font-weight: 500; color: var(--text-grey); transition: 0.3s; font-size: 0.95rem; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary-blue); }
 
-        /* Mobile Menu Toggle (Hamburger) */
+        /* Mobile Menu Toggle */
         .menu-toggle {
-            display: none; /* Hidden on desktop */
+            display: none;
             flex-direction: column;
             gap: 5px;
             cursor: pointer;
@@ -79,7 +79,7 @@
             transition: 0.3s;
         }
 
-        /* Hero Section */
+        /* Hero Section - Flexbox Layout */
         #hero {
             position: relative;
             background: var(--white);
@@ -88,34 +88,70 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
             overflow: hidden;
         }
         
         #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.4; }
-        .hero-content { position: relative; z-index: 1; padding: 0 1rem; }
-
-        #hero h1, #hero p, #hero .btn, #hero .btn-group {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s forwards;
-        }
-        #hero p { animation-delay: 0.2s; }
-        #hero .btn-group { animation-delay: 0.4s; }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
-        .hero-content h1 { font-size: 3.5rem; color: var(--text-dark); margin-bottom: 1rem; line-height: 1.2; }
-        .hero-content h1 span { color: var(--primary-blue); }
-        .hero-content p { font-size: 1.2rem; color: var(--text-grey); max-width: 600px; margin: 0 auto 2rem; }
         
+        /* Main container for Text + Image */
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 0 2rem;
+            display: flex;              /* Enable flexbox */
+            flex-direction: row;        /* Align items side by side */
+            align-items: center;        /* Vertically center them */
+            justify-content: center;    /* Horizontally center the group */
+            gap: 0.5rem;                /* REDUCED SPACE: Changed from 1.5rem to 0.5rem */
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* Text Content Styling (Left Side) */
+        .hero-text {
+            text-align: left;           /* Align text to the left */
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInLeft 1s forwards;
+            flex: 1;                    /* Allows text to take available space */
+        }
+
+        .hero-text h1 { font-size: 3.5rem; color: var(--text-dark); margin-bottom: 0.5rem; line-height: 1.2; }
+        .hero-text h1 span { color: var(--primary-blue); }
+        .hero-text p { font-size: 1.1rem; color: var(--text-grey); max-width: 500px; margin-bottom: 1.5rem; }
+
+        /* Hero Image Styling (Right Side) */
+        .hero-img-container {
+            flex-shrink: 0;             /* Prevent image from shrinking */
+            opacity: 0;
+            transform: translateX(50px);
+            animation: slideInRight 1s forwards;
+            animation-delay: 0.2s;
+        }
+        .hero-img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 8px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .hero-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Keyframes for animations */
+        @keyframes slideInLeft { to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
+
         /* Buttons */
-        .btn { display: inline-block; background: var(--primary-blue); color: var(--white); padding: 0.8rem 2rem; border-radius: var(--border-radius); font-weight: 600; margin: 0.5rem; transition: all 0.3s ease; border: none; cursor: pointer; font-size: 0.95rem; }
+        .btn { display: inline-block; background: var(--primary-blue); color: var(--white); padding: 0.8rem 2rem; border-radius: var(--border-radius); font-weight: 600; margin-right: 0.5rem; margin-bottom: 0.5rem; transition: all 0.3s ease; border: none; cursor: pointer; font-size: 0.95rem; }
         .btn:hover { background: var(--accent-blue); color: var(--white); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(13, 71, 161, 0.3); }
         .btn-outline { background: transparent; border: 2px solid var(--primary-blue); color: var(--primary-blue); }
         .btn-outline:hover { background: var(--primary-blue); color: var(--white); }
         
-        .btn-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
-        .text-link { display: block; margin-top: 1rem; font-size: 0.9rem; color: var(--text-grey); opacity:0; animation: fadeInUp 1s forwards; animation-delay: 0.6s; }
+        .text-link { display: block; margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-grey); }
 
         /* Sections */
         .section { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
@@ -149,7 +185,7 @@
 
             /* Mobile Nav Logic */
             .nav-links {
-                position: fixed; /* Fixed position to overlay content */
+                position: fixed;
                 top: 0;
                 left: 0;
                 width: 100%;
@@ -158,26 +194,49 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                transform: translateX(-100%); /* Hidden by default */
+                transform: translateX(-100%);
                 transition: transform 0.3s ease;
             }
             .nav-links.nav-active {
-                transform: translateX(0); /* Show when active */
+                transform: translateX(0);
             }
             .nav-links li { margin: 1.5rem 0; }
             .nav-links a { font-size: 1.2rem; }
 
-            /* Hamburger Animation */
             .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
             .menu-toggle.active span:nth-child(2) { opacity: 0; }
             .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
 
-            /* General Mobile Styles */
-            .hero-content h1 { font-size: 2.2rem; }
+            /* Hero Mobile Layout */
+            .hero-content {
+                flex-direction: column-reverse; /* Stack vertically: Image Top, Text Bottom */
+                text-align: center;
+                gap: 2rem;
+                padding-top: 5rem; 
+            }
+            .hero-text {
+                text-align: center;        /* Center text on mobile */
+                animation: fadeInUp 1s forwards;
+                transform: translateY(0);
+            }
+            .hero-img-container {
+                animation: fadeInUp 1s forwards;
+                transform: translateY(0);
+            }
+            
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-img { width: 180px; height: 180px; }
+            
             .about-grid { grid-template-columns: 1fr; gap: 2rem; }
             .section { padding: 3rem 1.5rem; }
             #about { margin-top: -2rem; padding: 2rem; }
             .btn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+        }
+
+        /* FadeInUp for mobile fallback */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -188,7 +247,6 @@
         <nav>
             <a href="index.html" class="logo">DG</a>
             
-            <!-- Mobile Hamburger Menu -->
             <div class="menu-toggle" id="mobile-menu">
                 <span></span>
                 <span></span>
@@ -210,18 +268,29 @@
     <section id="hero">
         <canvas id="hero-canvas"></canvas>
         <div class="hero-content">
-            <h1>Hi, I'm <span>DILLI G</span></h1>
-            <p>Civil Engineering Student | CAD & Revit Specialist<br>Passionate about Sustainable Design & Infrastructure.</p>
             
-            <div class="btn-group">
-                <a href="projects.html" class="btn">View My Work</a>
-                <a href="files/resume.pdf" download="Dilli_G_Resume.pdf" class="btn btn-outline">
-                    <i class="fas fa-download"></i> Download Resume
+            <!-- LEFT: Name & Description -->
+            <div class="hero-text">
+                <h1>Hi, I'm <span>Dilli G</span></h1>
+                <p>Civil Engineering Student | CAD & Revit Specialist<br>Passionate about Sustainable Design & Infrastructure.</p>
+                
+                <div>
+                    <a href="projects.html" class="btn">View My Work</a>
+                    <a href="files/resume.pdf" download="Dilli_G_Resume.pdf" class="btn btn-outline">
+                        <i class="fas fa-download"></i> Resume
+                    </a>
+                </div>
+                <a href="files/resume.pdf" target="_blank" class="text-link">
+                    <i class="fas fa-eye"></i> Or view resume in browser
                 </a>
             </div>
-            <a href="files/resume.pdf" target="_blank" class="text-link">
-                <i class="fas fa-eye"></i> Or view resume in browser
-            </a>
+
+            <!-- RIGHT: Profile Image -->
+            <div class="hero-img-container">
+                <!-- REPLACE src with your image path -->
+                <img src="files/image.jpeg" alt="Dilli G" class="hero-img">
+            </div>
+
         </div>
     </section>
 
